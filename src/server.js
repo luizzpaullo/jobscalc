@@ -35,7 +35,7 @@
  * - o EJS ira renderizar os html 
  * ajusta: routes.get('/',(req, res)=>res.sendFile(basePath + '/index.html'))   para    : routes.get('/',(req, res)=>res.render(basePath + 'index'))
  * 
- *  - Criar componentes page-header.ejs 
+ *  ## Criar componentes page-header.ejs 
  *          <header class="page-header inner">
                 <div class="container animate-up">
                 <a href="/" class="back">
@@ -44,9 +44,37 @@
                 <h1> <%= title %> </h1>
                 </div>
             </header>
- *  - reaproveitar componentes 
+ *  ### reaproveitar componentes 
  *           <%- include('parts/page-header', {title: 'Editar Job'}) %>            
- * 
+ * ### Pegando os dados do Back e servindo o FRONT
+            * const profile = {
+                name: 'LuizzP Developer',
+                avatar: 'https://avatars.githubusercontent.com/u/40010987?v=4',
+                "monthly-budget": 8000,
+                "days-per-week": 5,
+                "hours-per-day": 5,
+                "vacation-per-year": 3
+            }
+ * - passar dados como parâmetro nas routes
+ * -> routes.get('/profile',(req, res )=>res.render(basePath + 'profile'))
+ * -> routes.get('/profile',(req, res )=>res.render(basePath + 'profile', {profile})) 
+ *  - ajustando o HTML para pegar os value
+ *     - 2 duas forma de acessar a propriedade p/ passagem de dados
+ *           - 1 forma: através do . ponto
+ *                  <h2><%= profile.name %> </h2>
+ *           - no Input use value 
+ *                  <input type="text" 
+ *                      id="name" 
+ *                      name="name" 
+ *                      value="<%= profile.name %> " />
+ *           - 2 forma: ['traco-traco-traco']
+ *           -     <input 
+                         type="number"
+                         id="hours-per-day" 
+                         name="hours-per-day"
+                         value="<%= profile['hours-per-day'] %>" />
+        - OBS cuidados com o espaço da aspas duplas no fechamento do EJS" "
+              
  **/
 
 const express = require('express')
