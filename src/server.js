@@ -35,6 +35,17 @@
  * - o EJS ira renderizar os html 
  * ajusta: routes.get('/',(req, res)=>res.sendFile(basePath + '/index.html'))   para    : routes.get('/',(req, res)=>res.render(basePath + 'index'))
  * 
+ *  - Criar componentes page-header.ejs 
+ *          <header class="page-header inner">
+                <div class="container animate-up">
+                <a href="/" class="back">
+                    <img src="/images/back.svg" alt="" />
+                </a>
+                <h1> <%= title %> </h1>
+                </div>
+            </header>
+ *  - reaproveitar componentes 
+ *           <%- include('parts/page-header', {title: 'Editar Job'}) %>            
  * 
  **/
 
