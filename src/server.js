@@ -84,10 +84,12 @@ const routes = require('./routes')
 // Configurando a View engine com EJS
 server.set('view engine','ejs')
 
-/**
- * Habilitar arquivos Statics
- */
+
+ //Habilitar arquivos Statics
 server.use(express.static('public'))
+
+// Habilitar leitura do req.body no Servidor Express.
+server.use(express.urlencoded({ extended: true }))
 
 //Routes
 server.use(routes)
