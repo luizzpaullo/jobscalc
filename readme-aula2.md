@@ -21,3 +21,6 @@
 [   ] Entendimento: O front esta mandando as enformações para o back.
 
 -O envio do form acontece por meio do campo name do input; o campo name eh usado como chave no objeto enviado pelo POST e lido pelo back por meio do req.body .
+
+## Calcular o Tempo de cada JOB
+
