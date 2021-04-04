@@ -12,26 +12,68 @@ const profile = {
     "value-hour": 75
 }
 
-const jobs = [
-    {
-        id: 1,
-        name: 'Pizzaria Guloso',
-        'daily-hours': 2,
-        'total-hours': 1,
-        created_at: Date.now(),
+const Job = {
+    data: [
+        {
+            id: 1,
+            name: 'Pizzaria Guloso',
+            'daily-hours': 2,
+            'total-hours': 1,
+            created_at: Date.now(),
+    
+        },
+        {
+            id: 2,
+            name: 'OneTwo Project',
+            'daily-hours': 3,
+            'total-hours': 47,
+            created_at: Date.now(),
+    
+        }
+    ],
+    controllers: {
+        index(req,res) {
+            const updatedJobs = Job.data.map((job) => {
+                // Ajustes no Job
+                const remaining = Job.services.remainingDays(job)
+                const status = remaining <= 0 ? 'done' : 'progress'
+        
+                 return {
+                     ...job,
+                     remaining,
+                     status,
+                     budget: profile['value-hour'] * job['total-hours']
+        
+                 }
+            })
+            
+            return res.render(basePath + 'index',{jobs: updatedJobs})
+        },
 
+        create (req, res ) {
+            return res.render(basePath + 'job')
+        },
+
+        save(req, res ){
+            // req.body => { name: 'Arte ', 'daily-hours': '5', 'total-hours': '25' }
+            
+                const lastId = Job.data[Job.data.length - 1]?.id || 1;
+            
+               jobs.push({
+                   id: lastId + 1,
+                   name: req.body.name,
+                   'daily-hours': req.body['daily-hours'],
+                   'total-hours': req.body['total-hours'],
+                   created_at: Date.now()
+            
+               })
+            
+               return res.redirect('/')
+            
+            }
     },
-    {
-        id: 2,
-        name: 'OneTwo Project',
-        'daily-hours': 3,
-        'total-hours': 47,
-        created_at: Date.now(),
-
-    }
-]
-
-function remainingDays(job) {
+    services: {
+        remainingDays(job) {
             //Calcular o tempo de cada job
             const remainingDays = (job['total-hours'] / job['daily-hours']).toFixed()
          
@@ -47,44 +89,15 @@ function remainingDays(job) {
             //restam X dias
             return dayDiff
 }
+    }
+}
 
-routes.get('/',(req, res )=>{
-    
-    const updatedJobs = jobs.map((job) => {
-        // Ajustes no Job
-        const remaining = remainingDays(job)
-        const status = remaining <= 0 ? 'done' : 'progress'
 
-         return {
-             ...job,
-             remaining,
-             status,
-             budget: profile['value-hour'] * job['total-hours']
 
-         }
-    })
-    
-    return res.render(basePath + 'index',{jobs: updatedJobs})
 
-})
-routes.get('/job',(req, res )=>res.render(basePath + 'job'))
-routes.post('/job',(req, res )=> {
-// req.body => { name: 'Arte ', 'daily-hours': '5', 'total-hours': '25' }
-
-    const lastId = jobs[jobs.length - 1]?.id || 1;
-
-   jobs.push({
-       id: lastId + 1,
-       name: req.body.name,
-       'daily-hours': req.body['daily-hours'],
-       'total-hours': req.body['total-hours'],
-       created_at: Date.now()
-
-   })
-
-   return res.redirect('/')
-
-})
+routes.get('/', Job.controllers.index)
+routes.get('/job',Job.controllers.create)
+routes.post('/job', Job.controllers.save)
 routes.get('/job/edit',(req, res )=>res.render(basePath + 'job-edit'))
 routes.get('/profile',(req, res )=>res.render(basePath + 'profile',{profile}))
 
