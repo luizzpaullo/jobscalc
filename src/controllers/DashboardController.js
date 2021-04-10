@@ -6,7 +6,7 @@ module.exports = {
   async index(req, res) {
     //criando variáveis para receber a resposta do Model
     //  NAO PODE PEGAR NADA DO MODEL ELE DEVE DISPONIBILIZAR.
-    const jobs = Job.get();
+    const jobs = await Job.get();
     const profile = await Profile.get();
 
     let statusCount = {
