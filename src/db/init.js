@@ -38,7 +38,7 @@ const initDb = {
      value_hour
     
 ) VALUES (
-    "LuizzP Developer",
+    "LuizzP-HPA",
     "https://avatars.githubusercontent.com/u/40010987?v=4",
     3000,
     5,

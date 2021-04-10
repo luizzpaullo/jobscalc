@@ -29,7 +29,8 @@ module.exports = {
         const profile = await Profile.get()
 
         // Pede para o /model/Profile.js na update atualizar os dados 
-        profile.update({
+
+       await Profile.update({
             ...profile,
             ...req.body,
             "value-hour": valueHour
